@@ -35,8 +35,9 @@ N039 과제가 요구하는 라우팅→근거 조립→답변→검증→측정
 aieasy-routing-agent/
 ├── docs/                        # 근거 문서 (AI Easy 레슨 1~6 원본 + 서비스이용 안내)
 ├── data/
-│   ├── eval_set.csv             # 평가셋 (입력 + 정답 카테고리) — 20건 이상 예정
-│   └── answer_gold.json         # 문항별 기대도구·필수사실·금지사실
+│   ├── eval_set.csv             # 평가셋 (입력 + 정답 카테고리) — 20건, 카테고리별 4건
+│   ├── answer_gold.json         # 문항별 기대도구·필수사실·금지사실
+│   └── fewshot_examples.json    # 프롬프트 few-shot 예시 (eval_set과 비중복 별도 10건)
 ├── prompts.py                   # 분류 지침 · 답변 규칙
 ├── context.py                   # 카테고리 → 근거 조립
 ├── agent.py                     # LangGraph 파이프라인 (판정→근거조립→답변→검증)
