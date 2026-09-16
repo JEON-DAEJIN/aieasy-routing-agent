@@ -1,0 +1,8 @@
+{
+  "_schema": {
+    "id": "eval_set.csv의 id와 매칭",
+    "expected_tool": "기대 카테고리 (또는 'OUT_OF_SCOPE'면 넘기기가 정답)",
+    "must_include": ["반드시 담아야 할 사실 목록"],
+    "must_forbid": ["말하면 안 되는 것(그럴듯한 오답) 목록"]
+  }
+}
