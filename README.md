@@ -47,6 +47,16 @@ aieasy-routing-agent/
 └── REPORT.md                    # 설계·실험 보고서 (7항목)
 ```
 
+## 실행 방법
+
+```bash
+pip install -r requirements.txt
+cp .env.example .env        # ANTHROPIC_API_KEY를 직접 채워 넣을 것 (git에는 올라가지 않음)
+
+python evaluate.py          # 채점기 자체 검증 -> 20문항 평가 -> data/eval_results.csv 저장
+streamlit run app.py        # 데모 화면
+```
+
 ## 참고
 
 - 정리 노트: [N039_고객응대에이전트_프로젝트(routing_agent_project)](../강의정리/N039/N039_고객응대에이전트_프로젝트(routing_agent_project).md)

@@ -1,9 +1,7 @@
 """카테고리 -> 근거 조립.
 
-TODO:
-- CATEGORY_DOCS: 카테고리별로 읽어들일 docs/ 파일 목록 매핑 (README.md 매핑표와 반드시 일치시킬 것)
-- load_evidence(category: str) -> str: 매핑된 문서를 읽어 하나의 근거 문자열로 합쳐 반환
-  (문서 "전체"가 아니라 그 카테고리에 필요한 부분만 넣는다는 N039 원칙을 지킬 것)
+문서 "전체"가 아니라 그 카테고리에 매핑된 문서만 읽어 근거로 넣는다 (N039 2·5장 원칙).
+매핑은 README.md의 카테고리-문서 매핑표와 반드시 일치시킨다.
 """
 
 import pathlib
@@ -17,3 +15,21 @@ CATEGORY_DOCS = {
     "SERVICE": ["서비스이용_안내.md"],
     "OUT_OF_SCOPE": [],
 }
+
+
+def load_evidence(category: str) -> str:
+    """카테고리에 매핑된 문서를 읽어 하나의 근거 문자열로 합쳐 반환한다.
+
+    OUT_OF_SCOPE는 매핑된 문서가 없으므로 빈 문자열을 반환한다 — 호출부(agent.py)는
+    이 경우 답변 생성 없이 바로 넘기기 응답으로 분기해야 한다.
+    """
+    filenames = CATEGORY_DOCS.get(category)
+    if filenames is None:
+        raise ValueError(f"알 수 없는 카테고리: {category}")
+
+    chunks = []
+    for filename in filenames:
+        text = (DOCS_DIR / filename).read_text(encoding="utf-8")
+        chunks.append(f"### 출처: {filename}\n{text}")
+
+    return "\n\n".join(chunks)

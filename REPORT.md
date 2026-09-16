@@ -16,10 +16,30 @@
 - **평가용/예시용 분리**: 프롬프트 few-shot 예시는 `data/fewshot_examples.json`(10건, eval_set과 문항 100% 비중복)에서만 가져오도록 분리. `data/eval_set.csv`의 20문항은 절대 프롬프트에 노출하지 않음
 
 ## 4. 측정 결과
+
+> ⏸ `evaluate.py` 실행 대기 중 — `.env`에 `ANTHROPIC_API_KEY`를 채운 뒤 `python evaluate.py`를 실행하면
+> 채점기 자체 검증(모범답안 PASS / 오답 FAIL) 결과와 함께 아래 두 수치, 오류 원인 분류표가
+> `data/eval_results.csv`에 저장된다. 실행 후 이 절을 그 결과로 갱신할 것.
+
 (도구 호출 적절성 · 답변 적절성 수치, 오류 원인 분류, 개선 시도별 기록표)
 
 ## 5. 파이프라인 구조도
-(LangGraph 노드·State 흐름 다이어그램)
+
+```mermaid
+flowchart TD
+    Q[question] --> C[classify_node]
+    C -->|OUT_OF_SCOPE| O[out_of_scope_node]
+    C -->|그 외 4개 카테고리| A[assemble_node]
+    A --> AN[answer_node]
+    AN --> V[verify_node]
+    V --> END1[END]
+    O --> END2[END]
+```
+
+State = `{question, category, evidence, answer, validation}` (agent.py `AgentState`).
+`classify_node`가 OUT_OF_SCOPE로 판정하면 근거 조립·답변 생성 없이 바로
+`out_of_scope_node`(고정 넘기기 응답)로 분기하고, 그 외에는 근거 조립 → 답변 →
+검증(답변 주장을 근거와 대조)까지 순서대로 거친다.
 
 ## 6. 데모 설계
 (데모 화면 캡처와 신경 쓴 부분)
