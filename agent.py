@@ -14,6 +14,7 @@ State는 에이전트가 단계마다 채워 넣는 "작업 가방"이다 (N039 
 
 import json
 import os
+import pathlib
 from typing import TypedDict
 
 from anthropic import Anthropic
@@ -23,7 +24,8 @@ from langgraph.graph import StateGraph, START, END
 import context
 import prompts
 
-load_dotenv()
+# 실행 위치(cwd)와 무관하게 이 파일과 같은 폴더의 .env를 항상 찾도록 경로를 명시한다.
+load_dotenv(pathlib.Path(__file__).parent / ".env")
 
 _client = None
 

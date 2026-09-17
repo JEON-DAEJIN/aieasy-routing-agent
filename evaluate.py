@@ -22,7 +22,7 @@ from dotenv import load_dotenv
 
 import agent
 
-load_dotenv()
+load_dotenv(pathlib.Path(__file__).parent / ".env")
 
 DATA_DIR = pathlib.Path(__file__).parent / "data"
 _MODEL = os.environ.get("CLAUDE_MODEL", "claude-haiku-4-5-20251001")
